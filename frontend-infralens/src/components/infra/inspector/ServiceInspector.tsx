@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
-const PROJECT_ID = "cmszv8zyk0000g0usl412nl31";
 
 type Service = {
   id: string;
@@ -26,6 +25,7 @@ type Connection = {
 };
 
 type ServiceInspectorProps = {
+  projectId: string;
   service: Service | null;
   services: Service[];
   connections: Connection[];
@@ -33,6 +33,7 @@ type ServiceInspectorProps = {
 };
 
 export function ServiceInspector({
+  projectId,
   service,
   services,
   connections,
@@ -56,14 +57,14 @@ export function ServiceInspector({
   const [status, setStatus] = useState(
     service?.status ?? "HEALTHY",
   );
-   const [saving, setSaving] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
 
 
   if (!service) {
     return (
-      <aside className="flex h-full w-80 shrink-0 flex-col border-l border-zinc-800 bg-zinc-950">
+      <aside className="flex h-full w-[340px] shrink-0 flex-col border-l border-zinc-800/80 bg-[#0b0c10]">
         <div className="border-b border-zinc-800 px-5 py-4">
           <div className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
             Inspector
@@ -99,20 +100,19 @@ export function ServiceInspector({
 
     try {
       const response = await fetch(
-        `${API_URL}/projects/${PROJECT_ID}/services/${serviceId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            environment,
-            provider: provider.trim() || null,
-            region: region.trim() || null,
-            description: description.trim() || null,
-            status,
-          }),
+        `${API_URL}/projects/${projectId}/services/${serviceId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          environment,
+          provider: provider.trim() || null,
+          region: region.trim() || null,
+          description: description.trim() || null,
+          status,
+        }),
+      },
       );
 
       const data = (await response.json()) as {
@@ -137,10 +137,14 @@ export function ServiceInspector({
     }
   }
 
-  const isHealthy = status === "HEALTHY";
-
+  const statusColor =
+    status === "HEALTHY"
+      ? "bg-emerald-400"
+      : status === "DEGRADED"
+        ? "bg-amber-400"
+        : "bg-red-400";
   return (
-    <aside className="flex h-full w-80 shrink-0 flex-col border-l border-zinc-800 bg-zinc-950">
+    <aside className="flex h-full w-[340px] shrink-0 flex-col border-l border-zinc-800/80 bg-[#0b0c10]">
       <div className="border-b border-zinc-800 px-5 py-4">
         <div className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
           Service
@@ -172,8 +176,7 @@ export function ServiceInspector({
 
           <div className="mt-2 flex items-center gap-2">
             <span
-              className={`h-2 w-2 rounded-full ${isHealthy ? "bg-emerald-400" : "bg-red-400"
-                }`}
+              className={`h-2 w-2 shrink-0 rounded-full ${statusColor}`}
             />
 
             <select

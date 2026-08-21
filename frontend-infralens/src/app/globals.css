@@ -1,8 +1,9 @@
+@import "@xyflow/react/dist/style.css" layer(base);
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #08090c;
+  --foreground: #f4f4f5;
 }
 
 @theme inline {
@@ -12,15 +13,210 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  background: #08090c;
+  color: #f4f4f5;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+/* ─────────────────────────────────────────────
+   InfraLens / React Flow theme
+   ───────────────────────────────────────────── */
+
+.react-flow {
+  --xy-edge-stroke-default: #52525b;
+  --xy-edge-stroke-width-default: 1.5;
+  --xy-edge-stroke-selected-default: #818cf8;
+
+  --xy-connectionline-stroke-default: #818cf8;
+  --xy-connectionline-stroke-width-default: 2;
+
+  --xy-minimap-background-color-default: #101116;
+  --xy-background-pattern-dots-color-default: #25272d;
+
+  --xy-node-border-default: 1px solid #27272a;
+  --xy-node-background-color-default: #111318;
+
+  --xy-handle-background-color-default: #71717a;
+  --xy-handle-border-color-default: #111318;
+
+  --xy-selection-background: rgba(99, 102, 241, 0.08);
+  --xy-selection-border: 1px solid rgba(129, 140, 248, 0.5);
+
+  --xy-controls-button-background-color-default: #111318;
+  --xy-controls-button-background-color-hover-default: #181a20;
+  --xy-controls-button-color-default: #a1a1aa;
+  --xy-controls-button-color-hover-default: #f4f4f5;
+  --xy-controls-button-border-color-default: #27272a;
+  --xy-controls-box-shadow-default:
+    0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.react-flow__controls {
+  overflow: hidden;
+  border: 1px solid #27272a;
+  border-radius: 10px;
+  background: #111318;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.react-flow__controls-button {
+  border-bottom: 1px solid #27272a;
+  background: #111318;
+  color: #a1a1aa;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: 0;
+}
+
+.react-flow__controls-button:hover {
+  background: #181a20;
+  color: #f4f4f5;
+}
+
+.react-flow__controls-button svg {
+  fill: currentColor;
+}
+
+.react-flow__minimap {
+  overflow: hidden;
+  border: 1px solid #27272a;
+  border-radius: 10px;
+  background: #101116;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.react-flow__attribution {
+  display: none;
+}
+
+.react-flow__edge-textbg {
+  fill: #111318;
+}
+
+.react-flow__edge-text {
+  fill: #a1a1aa;
+}
+
+.react-flow__connection-path {
+  stroke: #818cf8;
+  stroke-width: 2;
+}
+
+.react-flow__pane {
+  cursor: default;
+}
+
+/* ─────────────────────────────────────────────
+   React Flow UI normalization
+   ───────────────────────────────────────────── */
+
+.react-flow,
+.react-flow__renderer,
+.react-flow__viewport {
+  background: #08090c;
+}
+
+.react-flow__controls {
+  background: #111318 !important;
+  border: 1px solid #27272a !important;
+  border-radius: 10px !important;
+}
+
+.react-flow__controls-button {
+  width: 32px !important;
+  height: 32px !important;
+  background: #111318 !important;
+  border-color: #27272a !important;
+  color: #a1a1aa !important;
+}
+
+.react-flow__controls-button:hover {
+  background: #181a20 !important;
+  color: #ffffff !important;
+}
+
+.react-flow__controls-button svg {
+  max-width: 14px;
+  max-height: 14px;
+  fill: currentColor;
+}
+
+.react-flow__minimap {
+  background: #101116 !important;
+  border: 1px solid #27272a !important;
+  border-radius: 10px !important;
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(0, 0, 0, 0.5) !important;
+}
+
+.react-flow__minimap-node {
+  stroke: #27272a !important;
+}
+
+.react-flow__edge-path {
+  stroke: #52525b;
+  stroke-width: 1.5;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #818cf8;
+  stroke-width: 2;
+}
+
+.react-flow__edge-text {
+  fill: #a1a1aa;
+}
+
+.react-flow__edge-textbg {
+  fill: #111318;
+}
+
+.react-flow__selection {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(129, 140, 248, 0.35);
+}
+
+.react-flow__handle {
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.react-flow__handle:hover {
+  transform: scale(1.25);
+  background: #818cf8 !important;
+}
+
+.react-flow__connection-path {
+  stroke: #818cf8 !important;
+  stroke-width: 2 !important;
+}
+
+.react-flow__pane {
+  cursor: grab;
+}
+
+.react-flow__pane:active {
+  cursor: grabbing;
 }

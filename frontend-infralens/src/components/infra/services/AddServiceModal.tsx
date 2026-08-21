@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000";
-const PROJECT_ID = "cmszv8zyk0000g0usl412nl31";
 
 const serviceTypes = [
   "API",
@@ -34,11 +33,18 @@ type Service = {
 };
 
 type AddServiceModalProps = {
+  projectId: string;
+  initialPosition: {
+    x: number;
+    y: number;
+  };
   onCreated: (service: Service) => void;
   onClose: () => void;
 };
 
 export function AddServiceModal({
+  projectId,
+  initialPosition,
   onCreated,
   onClose,
 }: AddServiceModalProps) {
@@ -64,7 +70,7 @@ export function AddServiceModal({
 
     try {
       const response = await fetch(
-        `${API_URL}/projects/${PROJECT_ID}/services`,
+        `${API_URL}/projects/${projectId}/services`,
         {
           method: "POST",
           headers: {
@@ -77,8 +83,8 @@ export function AddServiceModal({
             environment,
             provider: provider.trim() || undefined,
             region: region.trim() || undefined,
-            positionX: 100,
-            positionY: 100,
+            positionX: initialPosition.x,
+            positionY: initialPosition.y,
           }),
         },
       );
